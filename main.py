@@ -21,15 +21,15 @@ def main():
 def search():
     print("Enter Search Term: ")
     term = str(input())
-    prices = []
-    ebay(term, prices)
-    print(prices)
+    ebay_prices = []
+    ebay(term, ebay_prices)
+    print(ebay_prices)
 
-def ebay(term, prices):
+def ebay(term, ebay_prices):
     driver.get("https://www.ebay.com/")
     input_element = driver.find_element(By.ID, "gh-ac")
     input_element.send_keys(term + Keys.RETURN)
-    time.sleep(1.5)
+    time.sleep(3)
     button_element = driver.find_element(By.XPATH, '/html/body/div[5]/div[4]/div[1]/div/div[1]/div[3]/div[1]/div/span/button' )
     button_element.click()
     time.sleep(.5)
@@ -37,14 +37,16 @@ def ebay(term, prices):
     list_element.click()
     time.sleep(.5)
 
-    ul_element = driver.find_element(By.XPATH, '/html/body/div[5]/div[4]/div[2]/div[1]/div[2]/ul')
-    list_items = ul_element.find_elements(By.XPATH, './li')
-    count = 1
-    for items in list_items:
-        count += 1
-        price = driver.find_element(By.XPATH, '//*div[1]/span')
-        prices.append(price.text)
-    return prices
+    ul_element = driver.find_element(By.XPATH, "//div[@id='srp-river-results']/ul")
+    list_items = ul_element.find_elements(By.XPATH, "//li[@class='s-item s-item__pl-on-bottom']")
+    count = 2
+    while count < len(list_items):
+        for item in list_items:
+            count += 1
+            single_price = item.find_element(By.XPATH, ".//span[@class='s-item__price']")
+            ebay_prices.append(single_price.text)
+    return ebay_prices
+
 if __name__=="__main__":
     main()
     
