@@ -71,6 +71,7 @@ def ebay(term):
     ul_element = driver.find_element(By.CSS_SELECTOR, '.srp-results')
     list_elements = ul_element.find_elements(By.CSS_SELECTOR, '[id^="item"][data-viewport*="trackableId"]')
 
+    #Botting is crowding search results, create filter for low review posts
     for item in list_elements:
         link = item.find_element(By.CSS_SELECTOR, 'div > a')
         url = link.get_attribute('href')
@@ -87,7 +88,6 @@ def ebay(term):
         except:
             pass
         try:
-            #doesnt work with newly listed, fix by searching above it.
             time_left = current_div.find_element(By.CSS_SELECTOR, '.s-item__time').text
             time_left = re.sub(r'Time left\n', '', time_left)
             listing['time'] = time_left
