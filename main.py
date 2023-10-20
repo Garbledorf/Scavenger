@@ -14,6 +14,7 @@ driver = webdriver.Firefox()
 def main():
     search()
 
+
 def search():
     term = str(input("Enter Search Term: "))
     print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
@@ -22,11 +23,12 @@ def search():
         case 1:
             ebay(term)
         case 2:
-            pass
+            craigslist(term)
         case 3:
             pass
         case 4:
             pass
+
 
 def shorten(url):
     type_tiny = pyshorteners.Shortener()
@@ -39,7 +41,14 @@ def ebay(term):
     driver.get("https://www.ebay.com/")
     print("[1] Best match\n[2] Time: Ending Soonest\n[3] Time: Newly Listed\n[4] Price + Shipping: Lowest First\n[5] Price + Shipping: Highest First\n[6] Distance: Nearest First")
     time.sleep(2)
-    selector = int(input("Select Sorting Option: "))
+
+    while True:
+            selector = int(input("Select Sorting Option: "))
+            if selector in [1,2,3,4,5,6]:
+                break
+            else:
+                print("Incorrect input, please input integers 1 - 6.")
+
     match selector:
         case 1:
             href="https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + term + "&_sacat=0&_sop=12"
@@ -65,18 +74,66 @@ def ebay(term):
             href="https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + term + "&_sacat=0&_sop=7"
             sorting = 'Nearest First'
             driver.get(href)
-    time.sleep(3)
 
+    while True:        
+        listing_percent = float(input(f"Set % positive reviews to filter.\nEnter 30 to only search between 30% to 100% listings: "))
+        if listing_percent < 100.1 or listing_percent > 0:
+            break
+        else:
+            print("Incorrect input, please input numbers only 1 - 100.")
+
+    print("[1] Filter only Auctions\n[2] Filter only Buy it now\n[3] Process both")
+    while True:
+        filter = int(input("Filter by Auction or Buy it now?: "))
+        if filter in [1,2,3]:
+            break
+        else:
+            print("Invalid input. Please enter 1, 2 or 3.")    
+    
+    auction_filter = False
+    buy_filter = False
+
+    match filter:
+        case 1:
+            auction_filter = True
+        case 2:
+            buy_filter = True
+        case 3:
+            pass
+
+    time.sleep(3)
 
     ul_element = driver.find_element(By.CSS_SELECTOR, '.srp-results')
     list_elements = ul_element.find_elements(By.CSS_SELECTOR, '[id^="item"][data-viewport*="trackableId"]')
 
     #Botting is crowding search results, create filter for low review posts
     for item in list_elements:
+        
         link = item.find_element(By.CSS_SELECTOR, 'div > a')
         url = link.get_attribute('href')
         url = shorten(url)
         current_div = item.find_element(By.CSS_SELECTOR, 'div.s-item__details.clearfix')
+
+        #filter reviews
+        reviews = current_div.find_element(By.CSS_SELECTOR, '.s-item__seller-info').text
+        reviews = re.search(r"\)\s*(\d+)", reviews).group(1)
+        reviews = float(reviews)
+        if reviews < listing_percent:
+            continue
+        
+        #filter listing type
+        if auction_filter == True:
+            try:
+                current_div.find_element(By.CSS_SELECTOR, '.s-item__bids.s-item__bidCount')
+            except:
+                continue
+        if buy_filter == True:
+            try:    
+                current_div.find_element(By.CSS_SELECTOR, '.s-item__purchase-options.s-item__purchaseOptions')
+            except:
+                continue
+            
+        #listing info processing
         listing = { 'link': url,
                      'price': current_div.find_element(By.CSS_SELECTOR, '.s-item__price').text,
                      'seller': current_div.find_element(By.CSS_SELECTOR, '.s-item__seller-info').text
@@ -96,9 +153,16 @@ def ebay(term):
         ebay_prices.append(listing)
     output_data(ebay_prices, sorting)
 
-#def craigslist():
+
+def craigslist(term):
+    craigslist_prices = []
+    driver.get("https://www.craigslist.org")
+    input_element = driver.find_element(By.CSS_SELECTOR, '#leftbar > div.cl-home-search-query.wide > div > input[type=text]')
+    input_element.send_keys(term + Keys.RETURN)
+
 
 #def facebook_marketplace():
+
 
 def output_data(ebay_prices, sorting):
     now = datetime.now()
@@ -111,7 +175,15 @@ def output_data(ebay_prices, sorting):
         os.makedirs(output_folder)
 
     dataframe = pandas.DataFrame(ebay_prices)
+
+    # WIP
+    #set width of each column to longest item in list
+    # dataframe = dataframe.replace({pandas.NA: '', pandas.NaT: ''})
+    # max_width = dataframe.applymap(lambda x: len(str(x))).max()
+    # for col in dataframe:
+    #     dataframe[col] = dataframe[col].apply(lambda x: f"{x: <{max_width[col]}}" if pandas.notna(x) else '')
+
     dataframe.to_csv(f"{output_folder}/{output_file}.csv",index=False)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
