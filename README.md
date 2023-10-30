@@ -18,5 +18,3 @@ TODO:
   Currently, basic functionality is achieved but could greatly be improved. Some formats of Ebay's layout break the scrape functionality of the 
   program. Improving this program further and expanding onto Craigslist and Facebook Marketplace should be immensely easier with the practice
   I've had. With more time free from College, I should be able to develop more frequently soon.
-
-**Mozilla Public License 2.0**
