@@ -43,10 +43,13 @@ def ebay(term):
     time.sleep(2)
 
     while True:
-            selector = int(input("Select Sorting Option: "))
-            if selector in [1,2,3,4,5,6]:
-                break
-            else:
+            try:
+                selector = int(input("Select Sorting Option: "))
+                if selector in [1,2,3,4,5,6]:
+                    break
+                else:
+                    print("Incorrect input, please input integers 1 - 6.")
+            except:
                 print("Incorrect input, please input integers 1 - 6.")
 
     match selector:
@@ -151,32 +154,56 @@ def ebay(term):
         except:
             pass
         ebay_prices.append(listing)
-    output_data(ebay_prices, sorting)
+    title = 'Ebay Prices'
+    output_data(ebay_prices, sorting, title)
 
 
 def craigslist(term):
     craigslist_prices = []
     driver.get("https://www.craigslist.org")
+    time.sleep(1)
     input_element = driver.find_element(By.CSS_SELECTOR, '#leftbar > div.cl-home-search-query.wide > div > input[type=text]')
+    time.sleep(.5)
     input_element.send_keys(term + Keys.RETURN)
+    time.sleep(2)
 
+    #doesnt work yet
+    ordered_element = driver.find_element(By.CSS_SELECTOR, '.results.cl-results-page')
+    list_elements = ordered_element.find_elements(By.CSS_SELECTOR, 'li')
+    
+    for item in list_elements:
+        link = item.find_element(By.CSS_SELECTOR, 'a')
+        url = link.get_attribute('href')
+        url = shorten(url)
+
+        listing = {'link' : url,
+                   'price' : item.find_element(By.CSS_SELECTOR, 'div > span').text,
+                   'location': item.find_element(By.CSS_SELECTOR, 'div > div.meta').text}
+        craigslist_prices.append(listing)
+    sorting = 'normal'
+    title = 'Craigslist Prices'
+    output_data(craigslist_prices, sorting, title)
 
 #def facebook_marketplace():
 
 
-def output_data(ebay_prices, sorting):
+def output_data(price_array, sorting, title):
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y_%H-%M")
 
     output_folder = "Output"
-    output_file = f"Ebay Prices - {sorting} - {dt_string}"
+    if sorting != 'normal':
+        output_file = f"{title} - {sorting} - {dt_string}"
+    else: 
+        output_file = f"{title} - {dt_string}"
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    dataframe = pandas.DataFrame(ebay_prices)
+    dataframe = pandas.DataFrame(price_array)
 
-    # WIP
+    # WIP - width may be a problem with local install of excel
+    
     #set width of each column to longest item in list
     # dataframe = dataframe.replace({pandas.NA: '', pandas.NaT: ''})
     # max_width = dataframe.applymap(lambda x: len(str(x))).max()
@@ -184,6 +211,7 @@ def output_data(ebay_prices, sorting):
     #     dataframe[col] = dataframe[col].apply(lambda x: f"{x: <{max_width[col]}}" if pandas.notna(x) else '')
 
     dataframe.to_csv(f"{output_folder}/{output_file}.csv",index=False)
+    driver.quit()
 
 if __name__ == "__main__":
     main()
