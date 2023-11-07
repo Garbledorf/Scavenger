@@ -8,14 +8,14 @@ import pyshorteners
 import pandas
 import os
 
-
 driver = webdriver.Firefox()
+
 
 def main():
     search()
 
 
-def search():
+def search(term):
     term = str(input("Enter Search Term: "))
     print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
     selector = int(input("Select what to search first: "))
@@ -28,7 +28,7 @@ def search():
             pass
         case 4:
             pass
-
+        
 
 def shorten(url):
     type_tiny = pyshorteners.Shortener()
@@ -51,7 +51,7 @@ def ebay(term):
                     print("Incorrect input, please input integers 1 - 6.")
             except:
                 print("Incorrect input, please input integers 1 - 6.")
-
+    
     match selector:
         case 1:
             href="https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + term + "&_sacat=0&_sop=12"
@@ -103,8 +103,8 @@ def ebay(term):
             buy_filter = True
         case 3:
             pass
-
-    time.sleep(3)
+        
+    time.sleep(3)   
 
     ul_element = driver.find_element(By.CSS_SELECTOR, '.srp-results')
     list_elements = ul_element.find_elements(By.CSS_SELECTOR, '[id^="item"][data-viewport*="trackableId"]')
@@ -166,7 +166,7 @@ def craigslist(term):
     time.sleep(.5)
     input_element.send_keys(term + Keys.RETURN)
     time.sleep(2)
-
+    
     #doesnt work yet
     ordered_element = driver.find_element(By.CSS_SELECTOR, '.results.cl-results-page')
     list_elements = ordered_element.find_elements(By.CSS_SELECTOR, 'li')
