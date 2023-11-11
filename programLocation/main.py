@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from datetime import datetime
@@ -8,17 +9,15 @@ import pyshorteners
 import pandas
 import os
 
+firefox_options = Options()
+firefox_options.add_argument("--headless")
+driver = webdriver.Firefox(options=firefox_options)
 
-driver = webdriver.Firefox()
-
-def main():
-    search()
-
-
-def search():
-    term = str(input("Enter Search Term: "))
+#get rid of? probably will take in and output parameters only.
+def search(term, selector):
     print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
-    selector = int(input("Select what to search first: "))
+    print(f"term = {term}, selector = {selector}")
+    selector = selector
     match selector:
         case 1:
             ebay(term)
@@ -37,6 +36,8 @@ def shorten(url):
 
 
 def ebay(term):
+    #no more user input. take in parameters instead, possibly work from search to take input
+
     ebay_prices = []
     driver.get("https://www.ebay.com/")
     print("[1] Best match\n[2] Time: Ending Soonest\n[3] Time: Newly Listed\n[4] Price + Shipping: Lowest First\n[5] Price + Shipping: Highest First\n[6] Distance: Nearest First")
@@ -106,7 +107,7 @@ def ebay(term):
     ul_element = driver.find_element(By.CSS_SELECTOR, '.srp-results')
     list_elements = ul_element.find_elements(By.CSS_SELECTOR, '[id^="item"][data-viewport*="trackableId"]')
 
-    #Botting is crowding search results, create filter for low review posts
+    
     for item in list_elements:
         
         link = item.find_element(By.CSS_SELECTOR, 'div > a')
@@ -165,9 +166,12 @@ def craigslist(term):
 
 
 def output_data(ebay_prices, sorting):
+
+
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y_%H-%M")
 
+    #adjust for different services, obviously
     output_folder = "Output"
     output_file = f"Ebay Prices - {sorting} - {dt_string}"
     
@@ -176,7 +180,8 @@ def output_data(ebay_prices, sorting):
 
     dataframe = pandas.DataFrame(ebay_prices)
 
-    # WIP
+    # WIP - width of columns in spreadsheet programs is probably a user issue, not our problem.
+
     #set width of each column to longest item in list
     # dataframe = dataframe.replace({pandas.NA: '', pandas.NaT: ''})
     # max_width = dataframe.applymap(lambda x: len(str(x))).max()
@@ -184,6 +189,3 @@ def output_data(ebay_prices, sorting):
     #     dataframe[col] = dataframe[col].apply(lambda x: f"{x: <{max_width[col]}}" if pandas.notna(x) else '')
 
     dataframe.to_csv(f"{output_folder}/{output_file}.csv",index=False)
-
-if __name__ == "__main__":
-    main()
