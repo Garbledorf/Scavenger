@@ -1,0 +1,16 @@
+html {
+    background-color: #394450;
+}
+
+h1 {
+    font-size: 500%;
+    position: relative;
+    color: #a3a3a3;
+}
+
+#search {
+    font-size: 400%;
+    position: relative;   
+    left: 490px;
+    bottom: 130px;
+}
