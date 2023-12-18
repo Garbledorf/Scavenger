@@ -1,5 +1,5 @@
 # Scavenger
-Rule of Acquisition #9: Opportunity plus instinct equals profit! A tool to scrape 3rd party websites such as Ebay for deals on specific items. Developed primarily with Python.
+Scavenger is a tool to scrape 3rd party websites such as Ebay for deals on specific items. Developed primarily with Python.
 
 TO INSTALL:
   Scavenger is currently a WIP project, meaning direct installation isn't available yet. This will be remedied soon.
