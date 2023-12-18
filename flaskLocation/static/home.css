@@ -11,51 +11,90 @@ body {
 
 #vultureTitle {
     color: rgb(66, 22, 22);
-    font-size: 1000%;
+    font-size: 1050%;
     padding-bottom: 1%;
     margin: auto;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
 }
 
 #sortingTitle {
     display: inline-block;
     color: rgb(66, 22, 22);
     font-size: 400%;
-    padding-bottom: 1%;
     margin-right: 1%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: -1%;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
     flex: 0;
-}
-
-#sortingOptions {
-    margin-right: 1%;
-    display: inline-block;
-    align-items: center;
 }
 
 .inputClass {
     color: rgb(9, 4, 4);
     background-color: rgb(66, 22, 22);
     font-size: 50px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
 }
 
 #sortingInput {
     margin-left: 1%; 
-    padding: 10px;
-    max-width: 800px;
-    width: 643px;
+    max-width: 650px;
+    width: 25%;
 }
 
 #selectionInput {
     margin-left: 1%;
     padding: 10px;
-    max-width: 800px;
-    width: 500px;
+    max-width: 600px;
+    width: 20%;
 }
 
 #termInput {
     padding: 10px;
     max-width: 1000px;
-    width: 920px;
+    width: 50%;
 }
+
+#displaySlider {
+    color: rgb(66, 22, 22);
+    font-size: 400%;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    margin-bottom: 1%;
+    max-width: 1000px;
+}
+
+input[type=range] {
+    color: rgb(66, 22, 22);    
+    width: 37%;
+    max-width: 930px;
+}
+
+div {
+    position: relative;
+}
+
+.information {
+    color: rgb(66, 22, 22);
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    position: absolute;
+    padding-left: 40%;
+    bottom: 0;
+    right: 0;
+}
+
+p {
+    font-size: 200%;
+
+}
+
+#directions {
+    font-size: 300%;
+    margin-bottom: 7.5%;
+    margin-right: 50.5%;
+}
+
+#remember {
+    font-size: 300%;
+    margin-bottom: -3%;
+    margin-right: 10%;
+}
+
+

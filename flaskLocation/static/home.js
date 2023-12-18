@@ -9,7 +9,11 @@ function toggleSortingOptions() {
 }
 
 function updateSliderInput(val) {
-    //update numerical value of slider as it's dragged. 
-    //currently unknown what number user is sliding.
-    document.getElementById('')
+    var h= document.getElementById('displaySlider');
+    h.innerText = "Filter seller reviews under: " + document.getElementById('reviewSlider').value + "%";
+}
+
+function resetTerm(val) {
+    var i = document.getElementById('termInput');
+    i.innerText = "";
 }

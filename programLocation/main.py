@@ -9,18 +9,22 @@ import pyshorteners
 import pandas
 import os
 
+#may want to factor in user's zip code for closer results. may be good to test with vpn, 
+#can possibly obfuscate location with website gathered info. proxy?
+
+
 firefox_options = Options()
 firefox_options.add_argument("--headless")
 driver = webdriver.Firefox(options=firefox_options)
 
 #get rid of? probably will take in and output parameters only.
-def search(term, selector):
-    print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
-    print(f"term = {term}, selector = {selector}")
-    selector = selector
-    match selector:
+def search(term, website, sorting, review):
+    #print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
+    print(f"term = {term}, website = {website}")
+    
+    match website:
         case 1:
-            ebay(term)
+            ebay(term, sorting, review)
         case 2:
             craigslist(term)
         case 3:
@@ -35,22 +39,21 @@ def shorten(url):
     return short_url
 
 
-def ebay(term):
-    #no more user input. take in parameters instead, possibly work from search to take input
+def ebay(term, sorting, review):
 
     ebay_prices = []
     driver.get("https://www.ebay.com/")
-    print("[1] Best match\n[2] Time: Ending Soonest\n[3] Time: Newly Listed\n[4] Price + Shipping: Lowest First\n[5] Price + Shipping: Highest First\n[6] Distance: Nearest First")
+    #print("[1] Best match\n[2] Time: Ending Soonest\n[3] Time: Newly Listed\n[4] Price + Shipping: Lowest First\n[5] Price + Shipping: Highest First\n[6] Distance: Nearest First")
     time.sleep(2)
 
-    while True:
-            selector = int(input("Select Sorting Option: "))
-            if selector in [1,2,3,4,5,6]:
-                break
-            else:
-                print("Incorrect input, please input integers 1 - 6.")
+    # while True:
+    #         selector = int(input("Select Sorting Option: "))
+    #         if selector in [1,2,3,4,5,6]:
+    #             break
+    #         else:
+    #             print("Incorrect input, please input integers 1 - 6.")
 
-    match selector:
+    match sorting:
         case 1:
             href="https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + term + "&_sacat=0&_sop=12"
             sorting = 'Best match'
@@ -77,7 +80,7 @@ def ebay(term):
             driver.get(href)
 
     while True:        
-        listing_percent = float(input(f"Set % positive reviews to filter.\nEnter 30 to only search between 30% to 100% listings: "))
+        listing_percent = review
         if listing_percent < 100.1 or listing_percent > 0:
             break
         else:
@@ -155,7 +158,7 @@ def ebay(term):
     output_data(ebay_prices, sorting)
 
 
-def craigslist(term):
+def craigslist(term, sorting):
     craigslist_prices = []
     driver.get("https://www.craigslist.org")
     input_element = driver.find_element(By.CSS_SELECTOR, '#leftbar > div.cl-home-search-query.wide > div > input[type=text]')
@@ -166,8 +169,7 @@ def craigslist(term):
 
 
 def output_data(ebay_prices, sorting):
-
-
+    print("output data is being accessed")
     now = datetime.now()
     dt_string = now.strftime("%d-%m-%Y_%H-%M")
 

@@ -10,6 +10,7 @@ bridge_location = "./programLocation/bridge.py"
 flask_server_location = "/flaskLocation/flaskServer.py"
 
 #website
+home_location = "http://127.0.0.1:5000" #DEVELOPMENT ONLY, CHANGE IN PRODUCTION
 website_folder = "flaskLocation/"
 html_location = "./templates/"
 html_file = "home.html"
