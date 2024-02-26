@@ -18,13 +18,13 @@ firefox_options.add_argument("--headless")
 driver = webdriver.Firefox(options=firefox_options)
 
 #get rid of? probably will take in and output parameters only.
-def search(term, website, sorting, review):
+def search(term, website, sorting, review, post_type):
     #print("[1] Ebay\n[2] Craigslist\n[3] Facebook Marketplace\n[4] Search All")
     print(f"term = {term}, website = {website}")
     
     match website:
         case 1:
-            ebay(term, sorting, review)
+            ebay(term, sorting, review, post_type)
         case 2:
             craigslist(term)
         case 3:
@@ -39,7 +39,7 @@ def shorten(url):
     return short_url
 
 
-def ebay(term, sorting, review):
+def ebay(term, sorting, review, post_type):
 
     ebay_prices = []
     driver.get("https://www.ebay.com/")
@@ -86,10 +86,10 @@ def ebay(term, sorting, review):
         else:
             print("Incorrect input, please input numbers only 1 - 100.")
 
-    print("[1] Filter only Auctions\n[2] Filter only Buy it now\n[3] Process both")
+    #print("[1] Filter only Auctions\n[2] Filter only Buy it now\n[3] Process both")
     while True:
-        filter = int(input("Filter by Auction or Buy it now?: "))
-        if filter in [1,2,3]:
+        #filter = int(input("Filter by Auction or Buy it now?: "))
+        if post_type in [1,2,3]:
             break
         else:
             print("Invalid input. Please enter 1, 2 or 3.")    
@@ -97,7 +97,7 @@ def ebay(term, sorting, review):
     auction_filter = False
     buy_filter = False
 
-    match filter:
+    match post_type:
         case 1:
             auction_filter = True
         case 2:

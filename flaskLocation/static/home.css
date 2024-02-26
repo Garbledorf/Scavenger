@@ -1,36 +1,23 @@
-/* STANDARD: reorganize ids, classes and different element types into new order. 
-List elements of similar purpose next to eachother. 
-inputForm -> termInput -> selectionInput are necessary for eachother so they go next to eachother
-this gets messy if not followed, I'd rather not get lost in the sea of CSS again.
-*/
-
-body {
-    
-    background-color: rgb(20, 21, 22);
-}
 
 #vultureTitle {
     color: rgb(66, 22, 22);
     font-size: 1050%;
+    padding-left: .5%;
     padding-bottom: 1%;
     margin: auto;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
 }
 
+#mainDiv {
+    padding-left: 1%;
+}
+
 #sortingTitle {
-    display: inline-block;
+    display: inline-flex;
     color: rgb(66, 22, 22);
     font-size: 400%;
     margin-right: 1%;
     margin-bottom: -1%;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-    flex: 0;
-}
-
-.inputClass {
-    color: rgb(9, 4, 4);
-    background-color: rgb(66, 22, 22);
-    font-size: 50px;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
 }
 
@@ -42,13 +29,13 @@ body {
 
 #selectionInput {
     margin-left: 1%;
-    padding: 10px;
+    padding: .39%;
     max-width: 600px;
     width: 20%;
 }
 
 #termInput {
-    padding: 10px;
+    padding: .39%;
     max-width: 1000px;
     width: 50%;
 }
@@ -61,40 +48,75 @@ body {
     max-width: 1000px;
 }
 
+#reviewSlider {
+    position: absolute;
+
+}
+
+#informationDiv {
+    margin-top: 10%;
+    padding-left: 1%;
+}
+
+#informationDirections {
+    font-size: 350%;
+    margin-bottom: -2%;
+}
+
+#typeTitle {
+    display: inline-flex;
+    color: rgb(66, 22, 22);
+    font-size: 400%;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
+#typeInput {
+    margin-left: 2%;
+    max-width: 270px;
+    width: 25%;
+}
+
+
+
+.inputClass {
+    color: rgb(9, 4, 4);
+    background-color: rgb(66, 22, 22);
+    font-size: 320%;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
+.information {
+    color: rgb(66, 22, 22);
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    position: relative;
+    padding-left: 1%;
+    width: 160%;
+    max-width: 1600px;
+}
+
+
+
+
+
+html {
+    touch-action: manipulation;
+    min-width: auto;
+}
+
+body {
+    overflow: hidden;
+    background-color: rgb(20, 21, 22);
+}
+
 input[type=range] {
     color: rgb(66, 22, 22);    
     width: 37%;
     max-width: 930px;
 }
 
-div {
-    position: relative;
-}
-
-.information {
-    color: rgb(66, 22, 22);
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-    position: absolute;
-    padding-left: 40%;
-    bottom: 0;
-    right: 0;
-}
-
 p {
-    font-size: 200%;
-
+    font-size: 200% !important;
 }
 
-#directions {
-    font-size: 300%;
-    margin-bottom: 7.5%;
-    margin-right: 50.5%;
-}
-
-#remember {
-    font-size: 300%;
-    margin-bottom: -3%;
-    margin-right: 10%;
-}
 
 

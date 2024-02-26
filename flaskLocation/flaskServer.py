@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, redirect
 from flask import render_template
 
+
 from programLocation.bridge import search_initialize
 
 app = Flask(__name__)
@@ -19,8 +20,9 @@ def input():
         service_selection = request.form.get("sserviceinput")
         sorting_selection = request.form.get("ssortinginput")
         review_sorting = request.form.get("rreviewinput")
+        type_sorting = request.form.get("ttypeinput")
         if str.isspace(search_term) == False:
-            search_initialize(search_term, service_selection, sorting_selection, review_sorting)
+            search_initialize(search_term, service_selection, sorting_selection, review_sorting, type_sorting)
         return redirect(utility.home_location)
     return render_template(utility.html_file)
 

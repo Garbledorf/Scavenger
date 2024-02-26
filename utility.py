@@ -1,6 +1,5 @@
 
 #i think a few of these dont actually work, ill fix them later. 
-#why are file directories such a pain?
 
 #program
 main_location = "./programLocation/main.py"
